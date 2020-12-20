@@ -437,26 +437,41 @@ void viewhouse(){
 void selectmember(){
     system("cls");
     mem* node = member_head->next;
-    int a,b=0;
+    house* node1 = house_head->next;
+    int a,b=0,c=0;
     char house[LENGTH];
     puts("请输入会员ID:\n");
     scanf("%d",&a);
     while (node!=NULL){
         if (node->ID==a){
             system("cls");
-            int c;
+            int d;
             puts("1.购买\n2.入住\n3.返回主菜单\n");
-            scanf("%d",&c);
-            switch (c) {
+            scanf("%d",&d);
+            switch (d) {
                 case 1:
-                    system("cls");
+                loop:system("cls");
                     puts("请输入将要购买的房子:\n");
                     scanf("%s",house);
-                    strcpy(node->house,house);
-                    save1();
-                    puts("购买成功\n");
-                    system("pause");
-                    menu();
+                    while (node1!=NULL) {
+                        if (strcmp(node1->name,house)==0) {
+                            strcpy(node->house, house);
+                            strcpy(node1->host, node->name);
+                            save1();
+                            savehouse();
+                            c=1;
+                            puts("购买成功\n");
+                            system("pause");
+                            menu();
+                        }
+                        node1=node1->next;
+                    }
+                    if (c==0){
+                        puts("未找到该房子");
+                        node1 = house_head->next;
+                        system("pause");
+                        goto loop;
+                    }
                 case 2:
                     system("cls");
                     puts("请输入将要入住的房子:\n");
